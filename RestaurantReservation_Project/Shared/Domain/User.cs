@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantReservation_Project.Shared.Domain
 {
-    public class User
+    public class AppUser
     {
         public int Id { get; set; }
         public string Name { get; set; }
