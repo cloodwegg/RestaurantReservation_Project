@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantReservation_Project.Shared.Domain
 {
+    //Changed name from User to AppUser as there is clash with User for Login System
     public class AppUser
     {
         public int Id { get; set; }
