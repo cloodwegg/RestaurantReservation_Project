@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantReservation_Project.Shared.Domain
 {
-    class Reservation
+    public class Reservation
     {
         public int Id { get; set; }
         public int GroupSize { get; set; }
