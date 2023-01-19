@@ -3,17 +3,15 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RestaurantReservation_Project.Server.Data;
 
-namespace RestaurantReservation_Project.Server.Data.Migrations
+namespace RestaurantReservation_Project.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230119040348_AddedDefaultAppUserData")]
-    partial class AddedDefaultAppUserData
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -154,14 +152,14 @@ namespace RestaurantReservation_Project.Server.Data.Migrations
                         new
                         {
                             Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "13a7555a-350b-41d9-9182-890945b57970",
+                            ConcurrencyStamp = "057e4248-34df-46b3-932b-7938d4b7b030",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "b249afdc-bb28-4bbe-a97f-c44064b14668",
+                            ConcurrencyStamp = "88a8c877-b8dd-44b8-a739-48c259b060e7",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -357,7 +355,7 @@ namespace RestaurantReservation_Project.Server.Data.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1a2f8ea8-81a0-491f-8ab5-53a70a544ce5",
+                            ConcurrencyStamp = "d74ee466-95a0-4b3f-9414-74162d25099e",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -365,9 +363,9 @@ namespace RestaurantReservation_Project.Server.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEEhCptAp+aR3xUTT0MIm/wHvhIYqjJ+AkxfmyfDvPyNWpwG27UR/6XH4eaJ5o02Xvg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJEGcRyWmeOhQ5PEzi8ogw0JBx/1ew26wbcNCJdIm80kfYtS6kVygYB7Cy01vIF9yw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b4fe3d00-bb81-4be5-85ef-95af8f20747a",
+                            SecurityStamp = "66f18110-dd4e-4a05-8fd1-6a05e51332bd",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
