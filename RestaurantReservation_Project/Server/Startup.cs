@@ -8,7 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RestaurantReservation_Project.Server.Data;
+using RestaurantReservation_Project.Server.IRepository;
 using RestaurantReservation_Project.Server.Models;
+using RestaurantReservation_Project.Server.Repository;
 using System.Linq;
 
 namespace RestaurantReservation_Project.Server
@@ -40,6 +42,8 @@ namespace RestaurantReservation_Project.Server
 
             services.AddAuthentication()
                 .AddIdentityServerJwt();
+
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();
