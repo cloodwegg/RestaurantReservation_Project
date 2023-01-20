@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace RestaurantReservation_Project.Server.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
