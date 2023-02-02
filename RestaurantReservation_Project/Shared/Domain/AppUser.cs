@@ -16,5 +16,6 @@ namespace RestaurantReservation_Project.Shared.Domain
         public string Email { get; set; }
         public int Contact { get; set; }
         public string Address { get; set; }
+        public virtual List<Reservation> Reservations { get; set; }
     }
 }
