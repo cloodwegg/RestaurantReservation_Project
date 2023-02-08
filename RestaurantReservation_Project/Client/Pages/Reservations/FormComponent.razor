@@ -1,6 +1,24 @@
-﻿<EditForm Model="@reservation" OnValidSubmit="@OnValidSubmit">
+﻿@inject HttpClient _client
+
+<EditForm Model="@reservation" OnValidSubmit="@OnValidSubmit">
     <DataAnnotationsValidator />
     <ValidationSummary />
+
+    <div class="form-group">
+        <label>User: </label>
+        <div>
+            <InputSelect @bind-Value="reservation.AppUserId" class="form-control">
+                <option value="">-- Select AppUser --</option>
+                @if (AppUsers != null)
+                {
+                    foreach (var appuser in AppUsers)
+                    {
+                        <option value="@appuser.Id">@appuser.Name</option>}
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => reservation.AppUserId)" />
+        </div>
+    </div>
 
     <div class="form-group">
         <label>Group Size: </label>
@@ -26,4 +44,12 @@
     [Parameter] public Reservation reservation { get; set; }
     [Parameter] public string ButtonText { get; set; } = "Save";
     [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<AppUser> AppUsers;
+
+    protected async override Task OnInitializedAsync()
+    {
+        AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AppUsersEndpoint}");
+    }
+}
 }

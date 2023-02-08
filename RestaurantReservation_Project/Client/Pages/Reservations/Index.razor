@@ -22,6 +22,7 @@ else
         <thead>
             <tr>
                 <th>Reservation Id</th>
+                <th>For User</th>
                 <th>GroupSize</th>
                 <th>DateTime</th>
                 <th>Actions</th>
@@ -32,9 +33,9 @@ else
             {
             <tr>
                 <td>@reservation.Id</td>
+                <th>@reservation.AppUser.Name</th>
                 <td>@reservation.GroupSize</td>
                 <td>@reservation.DateTime</td>
-                @*<td>@reservation.Restaurant.Name</td>*@
                 <td>
                     <a href="/reservations/view/@reservation.Id" class="btn btn-primary">
                         <span class="oi oi-book"></span>
