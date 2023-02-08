@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RestaurantReservation_Project.Server.Migrations
 {
-    public partial class newdb1 : Migration
+    public partial class newdb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -112,11 +112,20 @@ namespace RestaurantReservation_Project.Server.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     GroupSize = table.Column<int>(type: "int", nullable: false),
-                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: false),
+                    RestaurantId = table.Column<int>(type: "int", nullable: false),
+                    StaffId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Reservations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reservations_AppUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AppUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -260,14 +269,14 @@ namespace RestaurantReservation_Project.Server.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "057e4248-34df-46b3-932b-7938d4b7b030", "Administrator", "ADMINISTRATOR" },
-                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "88a8c877-b8dd-44b8-a739-48c259b060e7", "User", "USER" }
+                    { "ad2bcf0c-20db-474f-8407-5a6b159518ba", "18954511-9847-4c4b-9c80-79d227ae7fe4", "Administrator", "ADMINISTRATOR" },
+                    { "bd2bcf0c-20db-474f-8407-5a6b159518bb", "bdc18a80-3c82-47d0-a736-9f1ac4e8f4f7", "User", "USER" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "d74ee466-95a0-4b3f-9414-74162d25099e", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEJEGcRyWmeOhQ5PEzi8ogw0JBx/1ew26wbcNCJdIm80kfYtS6kVygYB7Cy01vIF9yw==", null, false, "66f18110-dd4e-4a05-8fd1-6a05e51332bd", false, "Admin" });
+                values: new object[] { "3781efa7-66dc-47f0-860f-e506d04102e4", 0, "dc143fcc-e4ca-4580-99fb-a30dc2a9deb3", "admin@localhost.com", false, "Admin", "User", false, null, "ADMIN@LOCALHOST.COM", "ADMIN", "AQAAAAEAACcQAAAAEClJYWAmYphgyxFT50t8BC2LRWKuvkEj5OGImi6NYwbVTD2iLEoKz6+Y/0VjOizUJA==", null, false, "08d71f08-ebb8-4774-8642-31eb6917eb4f", false, "Admin" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
@@ -343,13 +352,15 @@ namespace RestaurantReservation_Project.Server.Migrations
                 name: "IX_Ratings_ReservationId",
                 table: "Ratings",
                 column: "ReservationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_AppUserId",
+                table: "Reservations",
+                column: "AppUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "AppUsers");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -382,6 +393,9 @@ namespace RestaurantReservation_Project.Server.Migrations
 
             migrationBuilder.DropTable(
                 name: "Reservations");
+
+            migrationBuilder.DropTable(
+                name: "AppUsers");
         }
     }
 }

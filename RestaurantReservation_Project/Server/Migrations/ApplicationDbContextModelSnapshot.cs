@@ -152,14 +152,14 @@ namespace RestaurantReservation_Project.Server.Migrations
                         new
                         {
                             Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "057e4248-34df-46b3-932b-7938d4b7b030",
+                            ConcurrencyStamp = "18954511-9847-4c4b-9c80-79d227ae7fe4",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "88a8c877-b8dd-44b8-a739-48c259b060e7",
+                            ConcurrencyStamp = "bdc18a80-3c82-47d0-a736-9f1ac4e8f4f7",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -355,7 +355,7 @@ namespace RestaurantReservation_Project.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d74ee466-95a0-4b3f-9414-74162d25099e",
+                            ConcurrencyStamp = "dc143fcc-e4ca-4580-99fb-a30dc2a9deb3",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -363,9 +363,9 @@ namespace RestaurantReservation_Project.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJEGcRyWmeOhQ5PEzi8ogw0JBx/1ew26wbcNCJdIm80kfYtS6kVygYB7Cy01vIF9yw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEClJYWAmYphgyxFT50t8BC2LRWKuvkEj5OGImi6NYwbVTD2iLEoKz6+Y/0VjOizUJA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "66f18110-dd4e-4a05-8fd1-6a05e51332bd",
+                            SecurityStamp = "08d71f08-ebb8-4774-8642-31eb6917eb4f",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -453,13 +453,24 @@ namespace RestaurantReservation_Project.Server.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("AppUserId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DateTime")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("GroupSize")
                         .HasColumnType("int");
 
+                    b.Property<int>("RestaurantId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StaffId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
 
                     b.ToTable("Reservations");
                 });
@@ -524,6 +535,22 @@ namespace RestaurantReservation_Project.Server.Migrations
                         .IsRequired();
 
                     b.Navigation("Reservation");
+                });
+
+            modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.Reservation", b =>
+                {
+                    b.HasOne("RestaurantReservation_Project.Shared.Domain.AppUser", "AppUser")
+                        .WithMany("Reservations")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("AppUser");
+                });
+
+            modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.AppUser", b =>
+                {
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }
