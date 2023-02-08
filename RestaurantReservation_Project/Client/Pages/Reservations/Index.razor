@@ -19,37 +19,37 @@
 else
 {
     <table class="table table-responsive">
-    <thead>
-        <tr>
-            <th>For User</th>
-            <th>GroupSize</th>
-            <th>DateTime</th>
-            @*<th>Restaurant</th>*@
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var reservation in Reservations)
-        {
-        <tr>
-            <td>@reservation.AppUser.Name</td>
-            <td>@reservation.GroupSize</td>
-            <td>@reservation.DateTime</td>
-            @*<td>@reservation.Restaurant.Name</td>*@
-            <td>
-                <a href="/reservations/view/@reservation.Id" class="btn btn-primary">
-                    <span class="oi oi-book"></span>
-                </a>
-                <a href="/reservations/edit/@reservation.Id" class="btn btn-warning">
-                    <span class="oi oi-pencil"></span>
-                </a>
-                <button class="btn btn-danger" @onclick="@(()=>Delete(reservation.Id))">
-                    <span class="oi oi-delete"></span>
-                </button>
-            </td>
-        </tr>
-        }
-    </tbody>
+        <thead>
+            <tr>
+                <th>For User</th>
+                <th>GroupSize</th>
+                <th>DateTime</th>
+                @*<th>Restaurant</th>*@
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var reservation in Reservations)
+            {
+            <tr>
+                <td>@reservation.AppUser.Name</td>
+                <td>@reservation.GroupSize</td>
+                <td>@reservation.DateTime</td>
+                @*<td>@reservation.Restaurant.Name</td>*@
+                <td>
+                    <a href="/reservations/view/@reservation.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/reservations/edit/@reservation.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(reservation.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
     </table>
 }
 
@@ -64,7 +64,7 @@ else
     async Task Delete(int reservationId)
     {
         var reservation = Reservations.First(q => q.Id == reservationId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete reservation for {reservation.AppUser.Name}?");
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete reservation {reservation.Id}?");
         if (confirm)
         {
             await _client.DeleteAsync($"{Endpoints.ReservationsEndpoint}/{reservationId}");

@@ -14,41 +14,41 @@
 
 @if (Ratings == null)
 {
-<div class="alert alert-info">Loading Ratings...</div>
+    <div class="alert alert-info">Loading Ratings...</div>
 }
 else
 {
     <table class="table table-responsive">
-    <thead>
-        <tr>
-            <th>By User</th>
-            @*<th>Restaurant</th>*@
-            <th>RatingScore</th>
-            <th>Description</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var rating in Ratings)
-        {
-        <tr>
-            <th>@rating.Reservation.AppUser.Name</th>
-            <th>@rating.RatingScore</th>
-            <th>@rating.Description</th>
-            <td>
-                <a href="/ratings/view/@rating.Id" class="btn btn-primary">
-                    <span class="oi oi-book"></span>
-                </a>
-                <a href="/ratings/edit/@rating.Id" class="btn btn-warning">
-                    <span class="oi oi-pencil"></span>
-                </a>
-                <button class="btn btn-danger" @onclick="@(()=>Delete(rating.Id))">
-                    <span class="oi oi-delete"></span>
-                </button>
-            </td>
-        </tr>
-        }
-    </tbody>
+        <thead>
+            <tr>
+                <th>Reservation Id</th>
+                @*<th>Restaurant</th>*@
+                <th>RatingScore</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rating in Ratings)
+            {
+            <tr>
+                <th>@rating.Reservation.Id</th>
+                <th>@rating.RatingScore</th>
+                <th>@rating.Description</th>
+                <td>
+                    <a href="/ratings/view/@rating.Id" class="btn btn-primary">
+                        <span class="oi oi-book"></span>
+                    </a>
+                    <a href="/ratings/edit/@rating.Id" class="btn btn-warning">
+                        <span class="oi oi-pencil"></span>
+                    </a>
+                    <button class="btn btn-danger" @onclick="@(()=>Delete(rating.Id))">
+                        <span class="oi oi-delete"></span>
+                    </button>
+                </td>
+            </tr>
+            }
+        </tbody>
     </table>
 }
 
@@ -63,7 +63,7 @@ else
     async Task Delete(int ratingId)
     {
         var rating = Ratings.First(q => q.Id == ratingId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete rating by {rating.Reservation.AppUser.Name}?");
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete rating {rating.Id}?");
         if (confirm)
         {
             await _client.DeleteAsync($"{Endpoints.RatingsEndpoint}/{ratingId}");
