@@ -3,7 +3,7 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 
-<h3 class="card-title">App Users</h3>
+<h3 class="card-title">Reservations</h3>
 
 <a href="/reservations/create" class="btn btn-secondary">
     <span class="oi oi-plus"></span>
@@ -19,37 +19,37 @@
 else
 {
     <table class="table table-responsive">
-        <thead>
-            <tr>
-                <th>For User</th>
-                <th>GroupSize</th>
-                <th>DateTime</th>
-                @*<th>Restaurant</th>*@
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var reservation in Reservations)
-            {
-            <tr>
-                <td>@reservation.AppUser.Name</td>
-                <td>@reservation.GroupSize</td>
-                <td>@reservation.DateTime</td>
-                @*<td>@reservation.Restaurant.Name</td>*@
-                <td>
-                    <a href="/reservations/view/@reservation.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/reservations/edit/@reservation.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(reservation.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
-            }
-        </tbody>
+    <thead>
+        <tr>
+            <th>For User</th>
+            <th>GroupSize</th>
+            <th>DateTime</th>
+            @*<th>Restaurant</th>*@
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Reservations)
+        {
+        <tr>
+            <td>@reservation.AppUser.Name</td>
+            <td>@reservation.GroupSize</td>
+            <td>@reservation.DateTime</td>
+            @*<td>@reservation.Restaurant.Name</td>*@
+            <td>
+                <a href="/reservations/view/@reservation.Id" class="btn btn-primary">
+                    <span class="oi oi-book"></span>
+                </a>
+                <a href="/reservations/edit/@reservation.Id" class="btn btn-warning">
+                    <span class="oi oi-pencil"></span>
+                </a>
+                <button class="btn btn-danger" @onclick="@(()=>Delete(reservation.Id))">
+                    <span class="oi oi-delete"></span>
+                </button>
+            </td>
+        </tr>
+        }
+    </tbody>
     </table>
 }
 
