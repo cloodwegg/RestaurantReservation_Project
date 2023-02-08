@@ -1,0 +1,29 @@
+﻿<EditForm Model="@reservation" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Group Size: </label>
+        <div>
+            <InputNumber @bind-Value="@reservation.GroupSize" class="form-control" />
+            <ValidationMessage For="@(() => reservation.GroupSize)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>DateTime: </label>
+        <div>
+            <InputDate @bind-Value="@reservation.DateTime" class="form-control" />
+            <ValidationMessage For="@(() => reservation.DateTime)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+    [Parameter] public Reservation reservation { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

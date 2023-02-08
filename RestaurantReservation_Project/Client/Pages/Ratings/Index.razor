@@ -21,6 +21,7 @@ else
     <table class="table table-responsive">
         <thead>
             <tr>
+                <th>Rating Id</th>
                 <th>Reservation Id</th>
                 @*<th>Restaurant</th>*@
                 <th>RatingScore</th>
@@ -32,6 +33,7 @@ else
             @foreach (var rating in Ratings)
             {
             <tr>
+                <th>@rating.Id</th>
                 <th>@rating.Reservation.Id</th>
                 <th>@rating.RatingScore</th>
                 <th>@rating.Description</th>

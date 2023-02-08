@@ -1,0 +1,23 @@
+﻿@page "/appusers/edit/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>Edit AppUser</h3>
+
+<FormComponent ButtonText="Update" OnValidSubmit="EditAppUser" appuser="appuser" />
+
+@code {
+    [Parameter] public int id { get; set; }
+    AppUser appuser = new AppUser();
+
+    protected async override Task OnParametersSetAsync()
+    {
+        appuser = await _client.GetFromJsonAsync<AppUser>($"{Endpoints.AppUsersEndpoint}/{id}");
+    }
+
+    async Task EditAppUser()
+    {
+        await _client.PutAsJsonAsync($"{Endpoints.AppUsersEndpoint}/{id}", appuser);
+        _navManager.NavigateTo("/appusers/");
+    }
+}

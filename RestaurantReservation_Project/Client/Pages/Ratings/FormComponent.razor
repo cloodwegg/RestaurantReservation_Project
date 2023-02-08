@@ -1,0 +1,54 @@
+﻿@inject HttpClient _client
+<EditForm Model="@rating" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="form-group">
+        <label>Reservation: </label>
+        <div>
+            <InputSelect @bind-Value="rating.ReservationId" class="form-control">
+                <option value="">-- Select Reservation --</option>
+                @if (Reservations != null)
+                {
+                    foreach (var reservation in Reservations)
+                    {
+                        <option value="@reservation.Id">@reservation.Id</option>}
+                }
+            </InputSelect>
+            <ValidationMessage For="@(() => rating.ReservationId)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Rating Score: </label>
+        <div>
+            <InputNumber @bind-Value="@rating.RatingScore" class="form-control" />
+            <ValidationMessage For="@(() => rating.RatingScore)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label>Description: </label>
+        <div>
+            <InputText @bind-Value="@rating.Description" class="form-control" />
+            <ValidationMessage For="@(() => rating.Description)" />
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-success btn-block">
+        @ButtonText
+    </button>
+</EditForm>
+
+@code {
+    [Parameter] public Rating rating { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+
+    private IList<Reservation> Reservations;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Reservations = await _client.GetFromJsonAsync<List<Reservation>>($"{Endpoints.ReservationsEndpoint}");
+    }
+
+}

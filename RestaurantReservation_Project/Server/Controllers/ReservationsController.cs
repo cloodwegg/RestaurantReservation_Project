@@ -36,8 +36,8 @@ namespace RestaurantReservation_Project.Server.Controllers
         {
             //Refactored
             //return await _context.Reservations.ToListAsync();
-            var reservations = await _unitOfWork.Reservations.GetAll(includes: q => q.Include(x => x.AppUser)); //add this when ibrahim has his entities done- Include(x => x.Restaurant).Include(x => x.Staff)
-            return Ok(reservations);
+            var Reservations = await _unitOfWork.Reservations.GetAll();// includes: q => q.Include(x => x.AppUser)); //add this when ibrahim has his entities done- Include(x => x.Restaurant).Include(x => x.Staff)
+            return Ok(Reservations);
         }
 
         // GET: api/Reservations/5
@@ -48,30 +48,30 @@ namespace RestaurantReservation_Project.Server.Controllers
         {
             //Refactored
             //var appUser = await _context.Reservations.FindAsync(id);
-            var reservation = await _unitOfWork.Reservations.Get(q => q.Id == id);
+            var Reservation = await _unitOfWork.Reservations.Get(q => q.Id == id);
 
-            if (reservation == null)
+            if (Reservation == null)
             {
                 return NotFound();
             }
 
             //Refactored
-            return Ok(reservation);
+            return Ok(Reservation);
         }
 
         // PUT: api/Reservations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutReservation(int id, Reservation reservation)
+        public async Task<IActionResult> PutReservation(int id, Reservation Reservation)
         {
-            if (id != reservation.Id)
+            if (id != Reservation.Id)
             {
                 return BadRequest();
             }
 
             //Refactored
             //_context.Entry(appUser).State = EntityState.Modified;
-            _unitOfWork.Reservations.Update(reservation);
+            _unitOfWork.Reservations.Update(Reservation);
 
             try
             {
@@ -99,15 +99,15 @@ namespace RestaurantReservation_Project.Server.Controllers
         // POST: api/Reservations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Reservation>> PostReservation(Reservation reservation)
+        public async Task<ActionResult<Reservation>> PostReservation(Reservation Reservation)
         {
             //Refactored
             //_context.Reservations.Add(appUser);
             //await _context.SaveChangesAsync();
-            await _unitOfWork.Reservations.Insert(reservation);
+            await _unitOfWork.Reservations.Insert(Reservation);
             await _unitOfWork.Save(HttpContext);
 
-            return CreatedAtAction("GetReservation", new { id = reservation.Id }, reservation);
+            return CreatedAtAction("GetReservation", new { id = Reservation.Id }, Reservation);
         }
 
         // DELETE: api/Reservations/5
@@ -116,8 +116,8 @@ namespace RestaurantReservation_Project.Server.Controllers
         {
             //Refactored
             //var appUser = await _context.Reservations.FindAsync(id);
-            var reservation = await _unitOfWork.Reservations.Get(q => q.Id == id);
-            if (reservation == null)
+            var Reservation = await _unitOfWork.Reservations.Get(q => q.Id == id);
+            if (Reservation == null)
             {
                 return NotFound();
             }
@@ -137,8 +137,8 @@ namespace RestaurantReservation_Project.Server.Controllers
         {
             //Refactored
             //return _context.Reservations.Any(e => e.Id == id);
-            var reservation = await _unitOfWork.Reservations.Get(q => q.Id == id);
-            return reservation != null;
+            var Reservation = await _unitOfWork.Reservations.Get(q => q.Id == id);
+            return Reservation != null;
         }
     }
 }
