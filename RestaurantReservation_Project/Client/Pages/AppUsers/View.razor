@@ -1,0 +1,16 @@
+﻿@page "/appusers/view/{id:int}"
+@inject HttpClient _client
+@inject NavigationManager _navManager
+
+<h3>View</h3>
+
+<FormComponent appuser="appuser" Disabled="true" />
+
+@code { [Parameter] public int id { get; set; }
+            AppUser appuser = new AppUser();
+
+            protected async override Task OnParametersSetAsync()
+            {
+                appuser = await _client.GetFromJsonAsync<AppUser>($"{Endpoints.AppUsersEndpoint}/{id}");
+            } 
+}
