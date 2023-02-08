@@ -36,7 +36,7 @@ namespace RestaurantReservation_Project.Server.Controllers
         {
             //Refactored
             //return await _context.Reservations.ToListAsync();
-            var reservations = await _unitOfWork.Reservations.GetAll(includes: q => q.Include(x => x.AppUser)); //add this when ibrahim has his entities done- Include(x => x.Restaurant).Include(x => x.Staff)
+            var reservations = await _unitOfWork.Reservations.GetAll();//includes: q => q.Include(x => x.AppUser)); //add this when ibrahim has his entities done- Include(x => x.Restaurant).Include(x => x.Staff)
             return Ok(reservations);
         }
 

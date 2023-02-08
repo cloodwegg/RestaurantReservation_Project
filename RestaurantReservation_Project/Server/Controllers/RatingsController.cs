@@ -19,6 +19,7 @@ namespace RestaurantReservation_Project.Server.Controllers
         //private readonly ApplicationDbContext _context;
         private readonly IUnitOfWork _unitOfWork;
 
+        //refactored
         //public RatingsController(ApplicationDbContext context)
         public RatingsController(IUnitOfWork unitOfWork)
         {

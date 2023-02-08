@@ -63,7 +63,7 @@ else
     async Task Delete(int ratingId)
     {
         var rating = Ratings.First(q => q.Id == ratingId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {rating.Reservation.AppUser.Name}?");
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete rating by {rating.Reservation.AppUser.Name}?");
         if (confirm)
         {
             await _client.DeleteAsync($"{Endpoints.RatingsEndpoint}/{ratingId}");

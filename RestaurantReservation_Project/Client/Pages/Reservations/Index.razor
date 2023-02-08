@@ -64,7 +64,7 @@ else
     async Task Delete(int reservationId)
     {
         var reservation = Reservations.First(q => q.Id == reservationId);
-        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {reservation.AppUser.Name}?");
+        var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete reservation for {reservation.AppUser.Name}?");
         if (confirm)
         {
             await _client.DeleteAsync($"{Endpoints.ReservationsEndpoint}/{reservationId}");
