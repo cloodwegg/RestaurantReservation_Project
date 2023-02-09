@@ -2,6 +2,9 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
+
 
 <h3 class="card-title">Reservations</h3>
 
@@ -31,23 +34,23 @@ else
         <tbody>
             @foreach (var reservation in Reservations)
             {
-            <tr>
-                <td>@reservation.Id</td>
-                <th>@reservation.AppUser.Name</th>
-                <td>@reservation.GroupSize</td>
-                <td>@reservation.DateTime</td>
-                <td>
-                    <a href="/reservations/view/@reservation.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/reservations/edit/@reservation.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(reservation.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <td>@reservation.Id</td>
+                    <th>@reservation.AppUser.Name</th>
+                    <td>@reservation.GroupSize</td>
+                    <td>@reservation.DateTime</td>
+                    <td>
+                        <a href="/reservations/view/@reservation.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/reservations/edit/@reservation.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(reservation.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -58,6 +61,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Reservations = await _client.GetFromJsonAsync<List<Reservation>>($"{Endpoints.ReservationsEndpoint}");
     }
 
@@ -71,4 +75,9 @@ else
             await OnInitializedAsync();
         }
     }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
+}
 }

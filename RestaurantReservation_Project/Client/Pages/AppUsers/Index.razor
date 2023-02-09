@@ -2,6 +2,8 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable 
 
 <h3 class="card-title">App Users</h3>
 
@@ -14,48 +16,48 @@
 
 @if (AppUsers == null)
 {
-<div class="alert alert-info">Loading AppUsers...</div> 
+    <div class="alert alert-info">Loading AppUsers...</div>
 }
 else
 {
     <table class="table table-responsive">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>DateOfBirth</th>
-            <th>Gender</th>
-            <th>Email</th>
-            <th>Contact</th>
-            <th>Address</th>
-            @*<th>Reservations</th>*@
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var appuser in AppUsers)
-        {
-        <tr>
-            <td>@appuser.Name</td>
-            <td>@appuser.DateOfBirth.Date.ToString("dd MMMM yyyy")</td>
-            <td>@appuser.Gender</td>
-            <td>@appuser.Email</td>
-            <td>@appuser.Contact</td>
-            <td>@appuser.Address</td>
-            @*<td>@appuser.Reservation.Id</td>*@
-            <td>
-                <a href="/appusers/view/@appuser.Id" class="btn btn-primary">
-                    <span class="oi oi-book"></span>
-                </a>
-                <a href="/appusers/edit/@appuser.Id" class="btn btn-warning">
-                    <span class="oi oi-pencil"></span>
-                </a>
-                <button class="btn btn-danger" @onclick="@(()=>Delete(appuser.Id))">
-                    <span class="oi oi-delete"></span>
-                </button>
-            </td>
-        </tr>
-    }
-    </tbody>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>DateOfBirth</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Address</th>
+                @*<th>Reservations</th>*@
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appuser in AppUsers)
+            {
+                <tr>
+                    <td>@appuser.Name</td>
+                    <td>@appuser.DateOfBirth.Date.ToString("dd MMMM yyyy")</td>
+                    <td>@appuser.Gender</td>
+                    <td>@appuser.Email</td>
+                    <td>@appuser.Contact</td>
+                    <td>@appuser.Address</td>
+                    @*<td>@appuser.Reservation.Id</td>*@
+                    <td>
+                        <a href="/appusers/view/@appuser.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/appusers/edit/@appuser.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(appuser.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
     </table>
 }
 
@@ -64,6 +66,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         AppUsers = await _client.GetFromJsonAsync<List<AppUser>>($"{Endpoints.AppUsersEndpoint}");
     }
 
@@ -76,5 +79,10 @@ else
             await _client.DeleteAsync($"{Endpoints.AppUsersEndpoint}/{appuserId}");
             await OnInitializedAsync();
         }
+    }
+
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
     }
 }

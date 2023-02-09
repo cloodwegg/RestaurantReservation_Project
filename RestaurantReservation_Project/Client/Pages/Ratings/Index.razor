@@ -2,6 +2,9 @@
 @inject HttpClient _client
 @inject IJSRuntime js
 @attribute [Authorize]
+@inject HttpInterceptorService _interceptor
+@implements IDisposable
+
 
 <h3 class="card-title">Ratings</h3>
 
@@ -31,23 +34,23 @@ else
         <tbody>
             @foreach (var rating in Ratings)
             {
-            <tr>
-                <th>@rating.Id</th>
-                <th>@rating.Reservation.Id</th>
-                <th>@rating.RatingScore</th>
-                <th>@rating.Description</th>
-                <td>
-                    <a href="/ratings/view/@rating.Id" class="btn btn-primary">
-                        <span class="oi oi-book"></span>
-                    </a>
-                    <a href="/ratings/edit/@rating.Id" class="btn btn-warning">
-                        <span class="oi oi-pencil"></span>
-                    </a>
-                    <button class="btn btn-danger" @onclick="@(()=>Delete(rating.Id))">
-                        <span class="oi oi-delete"></span>
-                    </button>
-                </td>
-            </tr>
+                <tr>
+                    <th>@rating.Id</th>
+                    <th>@rating.Reservation.Id</th>
+                    <th>@rating.RatingScore</th>
+                    <th>@rating.Description</th>
+                    <td>
+                        <a href="/ratings/view/@rating.Id" class="btn btn-primary">
+                            <span class="oi oi-book"></span>
+                        </a>
+                        <a href="/ratings/edit/@rating.Id" class="btn btn-warning">
+                            <span class="oi oi-pencil"></span>
+                        </a>
+                        <button class="btn btn-danger" @onclick="@(()=>Delete(rating.Id))">
+                            <span class="oi oi-delete"></span>
+                        </button>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
@@ -58,6 +61,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
+        _interceptor.MonitorEvent();
         Ratings = await _client.GetFromJsonAsync<List<Rating>>($"{Endpoints.RatingsEndpoint}");
     }
 
@@ -71,4 +75,9 @@ else
             await OnInitializedAsync();
         }
     }
+    public void Dispose()
+    {
+        _interceptor.DisposeEvent();
+    }
+}
 }
