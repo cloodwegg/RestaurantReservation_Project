@@ -23,6 +23,9 @@ namespace RestaurantReservation_Project.Server.Data
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<Rating> Ratings { get; set; }
+        public DbSet<Staff> Staffs { get; set; }
+        public DbSet<Food> Foods { get; set; }
+        public DbSet<Restaurant> Restaurants { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,6 +37,7 @@ namespace RestaurantReservation_Project.Server.Data
             builder.ApplyConfiguration(new AppUserSeedConfiguration());
             builder.ApplyConfiguration(new RatingSeedConfiguration());
             builder.ApplyConfiguration(new ReservationSeedConfiguration());
+            builder.ApplyConfiguration(new StaffSeedConfiguration());
         }
     }
 }

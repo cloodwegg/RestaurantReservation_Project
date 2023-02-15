@@ -10,8 +10,8 @@ using RestaurantReservation_Project.Server.Data;
 namespace RestaurantReservation_Project.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230202035211_newdb")]
-    partial class newdb
+    [Migration("20230215032442_newdb3")]
+    partial class newdb3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -154,14 +154,14 @@ namespace RestaurantReservation_Project.Server.Migrations
                         new
                         {
                             Id = "ad2bcf0c-20db-474f-8407-5a6b159518ba",
-                            ConcurrencyStamp = "18954511-9847-4c4b-9c80-79d227ae7fe4",
+                            ConcurrencyStamp = "c06569f5-9d57-4c20-9e5b-8aef8eaec60c",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "bd2bcf0c-20db-474f-8407-5a6b159518bb",
-                            ConcurrencyStamp = "bdc18a80-3c82-47d0-a736-9f1ac4e8f4f7",
+                            ConcurrencyStamp = "d2749863-4e80-495b-8d7a-8bf59925d09f",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -357,7 +357,7 @@ namespace RestaurantReservation_Project.Server.Migrations
                         {
                             Id = "3781efa7-66dc-47f0-860f-e506d04102e4",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "dc143fcc-e4ca-4580-99fb-a30dc2a9deb3",
+                            ConcurrencyStamp = "b0de978d-4eb3-4dde-b3f2-2f17230afe3c",
                             Email = "admin@localhost.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -365,9 +365,9 @@ namespace RestaurantReservation_Project.Server.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@LOCALHOST.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEClJYWAmYphgyxFT50t8BC2LRWKuvkEj5OGImi6NYwbVTD2iLEoKz6+Y/0VjOizUJA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIW+a3oy/N5izEK6b4Rd3B7hc2bBRgIR/N40KjRi9eXHKJr0i7E3AG/BKHrInky0mA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "08d71f08-ebb8-4774-8642-31eb6917eb4f",
+                            SecurityStamp = "dc587d59-45a2-44ac-8f2a-c0237c2ea05c",
                             TwoFactorEnabled = false,
                             UserName = "Admin"
                         });
@@ -390,13 +390,16 @@ namespace RestaurantReservation_Project.Server.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Gender")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
@@ -425,6 +428,32 @@ namespace RestaurantReservation_Project.Server.Migrations
                         });
                 });
 
+            modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.Food", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RestaurantID")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RestaurantID");
+
+                    b.ToTable("Foods");
+                });
+
             modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.Rating", b =>
                 {
                     b.Property<int>("Id")
@@ -446,6 +475,22 @@ namespace RestaurantReservation_Project.Server.Migrations
                     b.HasIndex("ReservationId");
 
                     b.ToTable("Ratings");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "amazing meal, would eat again",
+                            RatingScore = 5,
+                            ReservationId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "food had flies in it, boycotting this establishment.",
+                            RatingScore = 2,
+                            ReservationId = 2
+                        });
                 });
 
             modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.Reservation", b =>
@@ -475,6 +520,107 @@ namespace RestaurantReservation_Project.Server.Migrations
                     b.HasIndex("AppUserId");
 
                     b.ToTable("Reservations");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AppUserId = 1,
+                            DateTime = new DateTime(2023, 2, 15, 15, 5, 0, 0, DateTimeKind.Unspecified),
+                            GroupSize = 5,
+                            RestaurantId = 1,
+                            StaffId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AppUserId = 2,
+                            DateTime = new DateTime(2023, 2, 15, 12, 0, 0, 0, DateTimeKind.Unspecified),
+                            GroupSize = 2,
+                            RestaurantId = 2,
+                            StaffId = 2
+                        });
+                });
+
+            modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.Restaurant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Contact")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Restaurants");
+                });
+
+            modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.Staff", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Contact")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("DateofBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Gender")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NRIC")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Staffs");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "Tampines Blk xxx #02-xxx S52xxx1",
+                            Contact = 87523513,
+                            DateofBirth = new DateTime(2004, 3, 5, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "2102880H@student.tp.edu.sg",
+                            Gender = "Male",
+                            NRIC = "T0405960Z",
+                            Name = "Ibrahim"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "Woodlands Blk xxx #14-xxx S73xxx1",
+                            Contact = 22443355,
+                            DateofBirth = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "headstaff@gmail.com",
+                            Gender = "Male",
+                            NRIC = "T0001234T",
+                            Name = "HeadStaff"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -528,6 +674,17 @@ namespace RestaurantReservation_Project.Server.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.Food", b =>
+                {
+                    b.HasOne("RestaurantReservation_Project.Shared.Domain.Restaurant", "Restaurant")
+                        .WithMany("Foods")
+                        .HasForeignKey("RestaurantID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Restaurant");
+                });
+
             modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.Rating", b =>
                 {
                     b.HasOne("RestaurantReservation_Project.Shared.Domain.Reservation", "Reservation")
@@ -553,6 +710,11 @@ namespace RestaurantReservation_Project.Server.Migrations
             modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.AppUser", b =>
                 {
                     b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("RestaurantReservation_Project.Shared.Domain.Restaurant", b =>
+                {
+                    b.Navigation("Foods");
                 });
 #pragma warning restore 612, 618
         }
